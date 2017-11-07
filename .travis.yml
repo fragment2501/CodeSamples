@@ -1,0 +1,26 @@
+# @file
+# .travis.yml - Drupal for Travis CI Integration
+
+language: php
+
+sudo: false
+
+git:
+  depth: 5
+
+php:
+  - 7
+
+matrix:
+  fast_finish: true
+
+env:
+  global:
+    - PATH="$PATH:$HOME/.composer/vendor/bin"
+    
+before_install:
+  - phpenv config-rm xdebug.ini
+  
+script:
+  # All PHP Files must pass php linting
+  - if find . -name "*.php" -exec php -l {} \; | grep "unexpected $end"; then exit 1; fi
